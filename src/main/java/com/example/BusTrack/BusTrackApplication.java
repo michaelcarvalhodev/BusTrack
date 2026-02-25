@@ -31,6 +31,10 @@ public class BusTrackApplication implements CommandLineRunner {
 
 		if (autenticado) {
 			System.out.println("Sucesso! Agora você pode fazer outras chamadas à API");
+
+			String resposta = busLocationService.buscar("Lapa");
+			System.out.println(resposta);
+
 		} else {
 			System.out.println("Falha na autenticação");
 		}

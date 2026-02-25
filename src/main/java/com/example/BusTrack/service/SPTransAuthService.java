@@ -15,15 +15,11 @@ public class SPTransAuthService {
     @Value("${sptrans.token}")
     private String token;
 
-    private BasicCookieStore cookieStore = new BasicCookieStore();
-    private CloseableHttpClient httpClient;
-
-
+    private final BasicCookieStore cookieStore = new BasicCookieStore();
+    private final CloseableHttpClient httpClient;
 
     public SPTransAuthService() {
-        this.httpClient = HttpClients.custom()
-                .setDefaultCookieStore(cookieStore)
-                .build();
+        this.httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
     }
 
     public boolean conectar() {
@@ -32,10 +28,8 @@ public class SPTransAuthService {
         try {
             HttpPost httpPost = new HttpPost(url);
 
-            // Adicionar apenas os headers necessários (sem Content-Length)
             httpPost.setHeader("Accept", "*/*");
 
-            // Executar requisição
             CloseableHttpResponse Resposta = httpClient.execute(httpPost);
 
             String responseBody = EntityUtils.toString(Resposta.getEntity());
