@@ -3,15 +3,13 @@ package com.example.BusTrack.controller;
 import com.example.BusTrack.dto.Linha;
 import com.example.BusTrack.dto.PosicaoLinha;
 import com.example.BusTrack.service.BusLocationService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/linhas")
+@CrossOrigin(origins = "*")
 public class BusController {
 
 
