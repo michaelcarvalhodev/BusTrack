@@ -1,6 +1,7 @@
 package com.example.BusTrack.service;
 
 import com.example.BusTrack.dto.Linha;
+import com.example.BusTrack.dto.PosicaoLinha;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -15,9 +16,12 @@ public class BusLocationService {
 
     private final SPTransAuthService authService;
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(BusLocationService.class);
+
     public BusLocationService(SPTransAuthService authService) {
         this.authService = authService;
     }
+
 
     public List<Linha> buscar(String termo) {
 
@@ -29,14 +33,35 @@ public class BusLocationService {
         try (CloseableHttpResponse resposta = cliente.execute(get)) {
 
             String response = EntityUtils.toString(resposta.getEntity());
+            ObjectMapper mapper = new ObjectMapper();
 
-            return new Linha().;
+            Linha[] arrayDeLinhas = mapper.readValue(response, Linha[].class);
+            return List.of(arrayDeLinhas);
 
         } catch (Exception e) {
-            System.err.println("Erro: " + e.getMessage());
+            log.error("erro SPTrans: {}", e.getMessage(), e);
             return null;
         }
 
+    }
+
+    public PosicaoLinha buscarPosicao(int codigoLinha) {
+
+        String url = "https://api.olhovivo.sptrans.com.br/v2.1/Posicao/Linha?codigoLinha=" + codigoLinha;
+        HttpGet get = new HttpGet(url);
+        CloseableHttpClient cliente = authService.getHttpClient();
+
+        try (CloseableHttpResponse resposta = cliente.execute(get)) {
+
+            String response = EntityUtils.toString(resposta.getEntity());
+            ObjectMapper mapper = new ObjectMapper();
+
+            return mapper.readValue(response, PosicaoLinha.class);
+
+        } catch (Exception e) {
+            System.err.println("Erro ao buscar posicao: " + e.getMessage());
+            return null;
+        }
     }
 
 }

@@ -2,8 +2,8 @@ package com.example.BusTrack.dto;
 
 public class Linha {
 
-    private int cl; // Codigo Identificador da Linha
-    private String lt; // Letreiro da linha
+    private int cl; // codigo da Linha
+    private String lt; // nome da linha
 
 
     public Linha(){

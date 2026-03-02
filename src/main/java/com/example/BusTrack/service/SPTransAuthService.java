@@ -1,5 +1,6 @@
 package com.example.BusTrack.service;
 
+import jakarta.annotation.PostConstruct;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.cookie.BasicCookieStore;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -17,11 +18,13 @@ public class SPTransAuthService {
 
     private final BasicCookieStore cookieStore = new BasicCookieStore();
     private final CloseableHttpClient httpClient;
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SPTransAuthService.class);
 
     public SPTransAuthService() {
         this.httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
     }
 
+    @PostConstruct
     public boolean conectar() {
         String url = "https://api.olhovivo.sptrans.com.br/v2.1/Login/Autenticar?token=" + this.token;
 
@@ -39,8 +42,7 @@ public class SPTransAuthService {
             return "true".equalsIgnoreCase(responseBody.trim());
 
         } catch (Exception e) {
-            System.err.println("Erro na autenticação: " + e.getMessage());
-            e.printStackTrace();
+            log.error("erro na SPTrans: {}", e.getMessage(), e);
             return false;
         }
     }
