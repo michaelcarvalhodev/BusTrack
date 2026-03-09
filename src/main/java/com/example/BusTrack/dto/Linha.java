@@ -3,31 +3,39 @@ package com.example.BusTrack.dto;
 public class Linha {
 
     private int cl; // codigo da Linha
-    private String lt; // nome da linha
-
+    private String lt; // primeira parte (ex: 509J)
+    private int tl; // segunda parte (ex: 10)
+    private int sl; // Sentido da linha (1 ou 2)
+    private String ts;
+    private String tp;
 
     public Linha(){
-
     }
 
-    public Linha(int cl, String lt) {
+    public Linha(int cl, String lt, int tl, int sl, String ts, String tp) {
         this.cl = cl;
         this.lt = lt;
+        this.tl = tl;
+        this.sl = sl;
+        this.ts = ts;
+        this.tp = tp;
     }
 
-    public int getCl() {
-        return cl;
-    }
+    public int getCl() { return cl; }
+    public void setCl(int cl) { this.cl = cl; }
 
-    public void setCl(int cl) {
-        this.cl = cl;
-    }
+    public String getLt() { return lt; }
+    public void setLt(String lt) { this.lt = lt; }
 
-    public String getLt() {
-        return lt;
-    }
+    public int getTl() { return tl; }
+    public void setTl(int tl) { this.tl = tl; }
 
-    public void setLt(String lt) {
-        this.lt = lt;
-    }
+    public int getSl() { return sl; }
+    public void setSl(int sl) { this.sl = sl; }
+
+    public String getTs() { return ts; }
+    public void setTs(String ts) { this.ts = ts; }
+
+    public String getTp() { return tp; }
+    public void setTp(String tp) { this.tp = tp; }
 }
