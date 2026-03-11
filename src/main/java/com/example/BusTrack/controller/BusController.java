@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/linhas")
-//@CrossOrigin(origins = "https://bustrackfront.onrender.com/")
+
 @CrossOrigin(origins = "http://localhost:4200")
 public class BusController {
 
