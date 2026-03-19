@@ -1,6 +1,7 @@
 package com.example.BusTrack.service;
 
 import com.example.BusTrack.dto.Linha;
+import com.example.BusTrack.dto.Parada;
 import com.example.BusTrack.dto.PosicaoLinha;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -60,6 +61,26 @@ public class BusLocationService {
 
         } catch (Exception e) {
             System.err.println("Erro ao buscar posicao: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Parada> buscarParadas(int codigoLinha) {
+
+        String url = "https://api.olhovivo.sptrans.com.br/v2.1/Parada/BuscarParadasPorLinha?codigoLinha=" + codigoLinha;
+        HttpGet get = new HttpGet(url);
+        CloseableHttpClient cliente = authService.getHttpClient();
+
+        try (CloseableHttpResponse resposta = cliente.execute(get)) {
+
+            String response = EntityUtils.toString(resposta.getEntity());
+            ObjectMapper mapper = new ObjectMapper();
+
+            Parada[] arrayDeParadas = mapper.readValue(response, Parada[].class);
+            return List.of(arrayDeParadas);
+
+        } catch (Exception e) {
+            log.error("Erro ao buscar paradas: {}", e.getMessage(), e);
             return null;
         }
     }

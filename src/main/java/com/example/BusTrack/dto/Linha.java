@@ -3,9 +3,9 @@ package com.example.BusTrack.dto;
 public class Linha {
 
     private int cl; // codigo da Linha
-    private String lt; // primeira parte (ex: 509J)
-    private int tl; // segunda parte (ex: 10)
-    private int sl; // Sentido da linha (1 ou 2)
+    private String lt;
+    private int tl;
+    private int sl;
     private String ts;
     private String tp;
 

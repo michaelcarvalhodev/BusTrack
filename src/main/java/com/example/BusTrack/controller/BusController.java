@@ -1,6 +1,7 @@
 package com.example.BusTrack.controller;
 
 import com.example.BusTrack.dto.Linha;
+import com.example.BusTrack.dto.Parada;
 import com.example.BusTrack.dto.PosicaoLinha;
 import com.example.BusTrack.service.BusLocationService;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,9 @@ public class BusController {
         return busLocationService.buscarPosicao(codigoLinha);
     }
 
+    @GetMapping("/paradas")
+    public List<Parada> buscarParadasDaLinha(@RequestParam int codigoLinha) {
+        return busLocationService.buscarParadas(codigoLinha);
+    }
 
 }
