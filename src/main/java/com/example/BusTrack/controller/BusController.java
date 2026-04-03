@@ -1,5 +1,6 @@
 package com.example.BusTrack.controller;
 
+import com.example.BusTrack.dto.Coordenada;
 import com.example.BusTrack.dto.Linha;
 import com.example.BusTrack.dto.Parada;
 import com.example.BusTrack.dto.PosicaoLinha;
@@ -35,6 +36,11 @@ public class BusController {
     @GetMapping("/paradas")
     public List<Parada> buscarParadasDaLinha(@RequestParam int codigoLinha) {
         return busLocationService.buscarParadas(codigoLinha);
+    }
+
+    @GetMapping("/trajeto")
+    public List<Coordenada> buscarTrajeto(@RequestParam int codigoLinha) {
+        return busLocationService.buscarTrajeto(codigoLinha);
     }
 
 }

@@ -1,8 +1,10 @@
 package com.example.BusTrack.service;
 
+import com.example.BusTrack.dto.Coordenada;
 import com.example.BusTrack.dto.Linha;
 import com.example.BusTrack.dto.Parada;
 import com.example.BusTrack.dto.PosicaoLinha;
+import com.example.BusTrack.dto.TrajetoResposta;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
@@ -81,6 +83,30 @@ public class BusLocationService {
 
         } catch (Exception e) {
             log.error("Erro ao buscar paradas: {}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public List<Coordenada> buscarTrajeto(int codigoLinha) {
+
+        String url = "https://api.olhovivo.sptrans.com.br/v2.1/Posicao/Trajeto?codigoLinha=" + codigoLinha;
+        HttpGet get = new HttpGet(url);
+        CloseableHttpClient cliente = authService.getHttpClient();
+
+        try (CloseableHttpResponse resposta = cliente.execute(get)) {
+
+            String response = EntityUtils.toString(resposta.getEntity());
+            log.info("Trajeto raw response: {}", response);
+            ObjectMapper mapper = new ObjectMapper();
+
+            TrajetoResposta trajetoResposta = mapper.readValue(response, TrajetoResposta.class);
+
+            return trajetoResposta.getLs().stream()
+                    .flatMap(segmento -> segmento.getC().stream())
+                    .toList();
+
+        } catch (Exception e) {
+            log.error("Erro ao buscar trajeto: {}", e.getMessage(), e);
             return null;
         }
     }
